@@ -1639,6 +1639,7 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 			awsUseCrossRegionInference,
 			awsProfile,
 			awsUseProfile,
+			bedrockCustomModelId, // Add the bedrockCustomModelId
 			vertexProjectId,
 			vertexRegion,
 			openAiBaseUrl,
@@ -1688,6 +1689,7 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 			this.updateGlobalState("awsUseCrossRegionInference", awsUseCrossRegionInference),
 			this.updateGlobalState("awsProfile", awsProfile),
 			this.updateGlobalState("awsUseProfile", awsUseProfile),
+			this.updateGlobalState("bedrockCustomModelId", bedrockCustomModelId), // Add this line to save the bedrockCustomModelId
 			this.updateGlobalState("vertexProjectId", vertexProjectId),
 			this.updateGlobalState("vertexRegion", vertexRegion),
 			this.updateGlobalState("openAiBaseUrl", openAiBaseUrl),
@@ -2145,6 +2147,7 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 			awsUseCrossRegionInference,
 			awsProfile,
 			awsUseProfile,
+			bedrockCustomModelId, // Add the bedrockCustomModelId
 			vertexProjectId,
 			vertexRegion,
 			openAiBaseUrl,
@@ -2229,6 +2232,7 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 			this.getGlobalState("awsUseCrossRegionInference") as Promise<boolean | undefined>,
 			this.getGlobalState("awsProfile") as Promise<string | undefined>,
 			this.getGlobalState("awsUseProfile") as Promise<boolean | undefined>,
+			this.getGlobalState("bedrockCustomModelId") as Promise<string | undefined>, // Add this line to get the bedrockCustomModelId
 			this.getGlobalState("vertexProjectId") as Promise<string | undefined>,
 			this.getGlobalState("vertexRegion") as Promise<string | undefined>,
 			this.getGlobalState("openAiBaseUrl") as Promise<string | undefined>,
@@ -2330,6 +2334,7 @@ export class ClineProvider implements vscode.WebviewViewProvider {
 				awsUseCrossRegionInference,
 				awsProfile,
 				awsUseProfile,
+				bedrockCustomModelId, // Add the bedrockCustomModelId
 				vertexProjectId,
 				vertexRegion,
 				openAiBaseUrl,

@@ -190,10 +190,9 @@ export interface MessageContent {
 }
 
 export type BedrockModelId = keyof typeof bedrockModels
-export const bedrockDefaultModelId: BedrockModelId =
-	"arn:aws:bedrock:us-east-1:396913734285:application-inference-profile/of8cznqafjnb"
+export const bedrockDefaultModelId: BedrockModelId = "anthropic.claude-3-7-sonnet-20250219-v1:0"
 export const bedrockModels = {
-	"arn:aws:bedrock:us-east-1:396913734285:application-inference-profile/of8cznqafjnb": {
+	/* "arn:aws:bedrock:us-east-1:396913734285:application-inference-profile/of8cznqafjnb": {
 		maxTokens: 8192,
 		contextWindow: 200_000,
 		supportsImages: true,
@@ -203,7 +202,7 @@ export const bedrockModels = {
 		outputPrice: 15.0,
 		cacheWritesPrice: 3.75,
 		cacheReadsPrice: 0.3,
-	},
+	}, */
 	/* "amazon.nova-pro-v1:0": {
 		maxTokens: 5000,
 		contextWindow: 300_000,
@@ -236,7 +235,7 @@ export const bedrockModels = {
 		outputPrice: 0.14,
 		cacheWritesPrice: 0.035, // per million tokens
 		cacheReadsPrice: 0.00875, // per million tokens
-	},
+	}, */
 	"anthropic.claude-3-7-sonnet-20250219-v1:0": {
 		maxTokens: 8192,
 		contextWindow: 200_000,
@@ -390,7 +389,7 @@ export const bedrockModels = {
 		supportsPromptCache: false,
 		inputPrice: 0.3,
 		outputPrice: 0.6,
-	}, */
+	},
 } as const satisfies Record<string, ModelInfo>
 
 // Glama

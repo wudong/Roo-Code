@@ -22,6 +22,7 @@ export type GlobalStateKey =
 	| "awsUseCrossRegionInference"
 	| "awsProfile"
 	| "awsUseProfile"
+	| "bedrockCustomModelId"
 	| "vertexProjectId"
 	| "vertexRegion"
 	| "lastShownAnnouncementId"
