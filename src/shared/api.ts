@@ -39,6 +39,7 @@ export interface ApiHandlerOptions {
 	awspromptCacheId?: string
 	awsProfile?: string
 	awsUseProfile?: boolean
+	bedrockCustomModelId?: string // Custom model ID for AWS Bedrock
 	vertexProjectId?: string
 	vertexRegion?: string
 	openAiBaseUrl?: string

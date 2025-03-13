@@ -218,19 +218,26 @@ const ApiOptions = ({
 
 	useEvent("message", onMessage)
 
-	const selectedProviderModelOptions: DropdownOption[] = useMemo(
-		() =>
-			modelsByProvider[selectedProvider]
-				? [
-						{ value: "", label: "Select a model..." },
-						...Object.keys(modelsByProvider[selectedProvider]).map((modelId) => ({
-							value: modelId,
-							label: modelId,
-						})),
-					]
-				: [],
-		[selectedProvider],
-	)
+	const selectedProviderModelOptions: DropdownOption[] = useMemo(() => {
+		if (!modelsByProvider[selectedProvider]) {
+			return []
+		}
+
+		const options = [
+			{ value: "", label: "Select a model..." },
+			...Object.keys(modelsByProvider[selectedProvider]).map((modelId) => ({
+				value: modelId,
+				label: modelId,
+			})),
+		]
+
+		// Add "Customized" option for AWS Bedrock
+		if (selectedProvider === "bedrock") {
+			options.push({ value: "Customized", label: "Customized" })
+		}
+
+		return options
+	}, [selectedProvider])
 
 	return (
 		<div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
@@ -1373,12 +1380,30 @@ const ApiOptions = ({
 							id="model-id"
 							value={selectedModelId}
 							onChange={(value) => {
-								setApiConfigurationField("apiModelId", typeof value == "string" ? value : value?.value)
+								const newModelId = typeof value == "string" ? value : value?.value
+								setApiConfigurationField("apiModelId", newModelId)
 							}}
 							options={selectedProviderModelOptions}
 							className="w-full"
 						/>
 					</div>
+
+					{/* Add custom model input field for AWS Bedrock when "Customized" is selected */}
+					{selectedProvider === "bedrock" && selectedModelId === "Customized" && (
+						<VSCodeTextField
+							value={apiConfiguration?.bedrockCustomModelId || ""}
+							style={{ width: "100%" }}
+							onInput={(e) => {
+								const customModelId = (e.target as HTMLInputElement).value
+								// Store the custom model ID but keep "Customized" selected in the dropdown
+								setApiConfigurationField("bedrockCustomModelId", customModelId)
+								// Don't change the apiModelId, keep it as "Customized"
+							}}
+							placeholder="Enter custom model identifier (e.g. anthropic.claude-3-sonnet-20240229-v1:0)">
+							<span className="font-medium">Custom Model Identifier</span>
+						</VSCodeTextField>
+					)}
+
 					<ThinkingBudget
 						apiConfiguration={apiConfiguration}
 						setApiConfigurationField={setApiConfigurationField}
@@ -1439,6 +1464,26 @@ export function normalizeApiConfiguration(apiConfiguration?: ApiConfiguration) {
 		case "anthropic":
 			return getProviderData(anthropicModels, anthropicDefaultModelId)
 		case "bedrock":
+			// Special handling for "Customized" option
+			if (modelId === "Customized") {
+				// When using the customized option, return the actual custom model ID for API calls
+				// while keeping the dropdown selection as "Customized"
+				const actualModelId = apiConfiguration?.bedrockCustomModelId || "Customized"
+				return {
+					selectedProvider: provider,
+					selectedModelId: "Customized", // Keep the UI showing "Customized"
+					selectedModelInfo: {
+						maxTokens: 8192,
+						contextWindow: 128_000,
+						supportsImages: true,
+						supportsComputerUse: false,
+						supportsPromptCache: false,
+						inputPrice: 0.0,
+						outputPrice: 0.0,
+					},
+					actualModelId: actualModelId, // This is what should be sent to the API
+				}
+			}
 			return getProviderData(bedrockModels, bedrockDefaultModelId)
 		case "vertex":
 			return getProviderData(vertexModels, vertexDefaultModelId)

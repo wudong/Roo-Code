@@ -208,6 +208,31 @@ export class AwsBedrockHandler implements ApiHandler, SingleCompletionHandler {
 
 	getModel(): { id: BedrockModelId | string; info: ModelInfo } {
 		const modelId = this.options.apiModelId
+
+		// Handle custom model ID
+		if (modelId === "Customized") {
+			if (this.options.bedrockCustomModelId) {
+				return {
+					id: this.options.bedrockCustomModelId,
+					info: {
+						maxTokens: 8192,
+						contextWindow: 128_000,
+						supportsImages: true,
+						supportsComputerUse: false,
+						supportsPromptCache: false,
+						inputPrice: 0.0, // Default prices
+						outputPrice: 0.0,
+					},
+				}
+			} else {
+				// If "Customized" is selected but no custom model ID is provided, use the default
+				return {
+					id: bedrockDefaultModelId,
+					info: bedrockModels[bedrockDefaultModelId],
+				}
+			}
+		}
+
 		if (modelId) {
 			// For tests, allow any model ID
 			if (process.env.NODE_ENV === "test") {

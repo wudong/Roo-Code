@@ -1,9 +1,9 @@
 {
 	"name": "roo-cline",
-	"displayName": "Roo Code (prev. Roo Cline)",
+	"displayName": "JPM Roo Code (prev. Roo Cline)",
 	"description": "A whole dev team of AI agents in your editor.",
 	"publisher": "RooVeterinaryInc",
-	"version": "3.7.6",
+	"version": "3.7.7",
 	"icon": "assets/icons/rocket.png",
 	"galleryBanner": {
 		"color": "#617A91",
@@ -379,7 +379,7 @@
 		"prettier": "^3.4.2",
 		"rimraf": "^6.0.1",
 		"ts-jest": "^29.2.5",
-		"typescript": "^5.4.5"
+		"typescript": "^5.8.2"
 	},
 	"lint-staged": {
 		"*.{js,jsx,ts,tsx,json,css,md}": [
